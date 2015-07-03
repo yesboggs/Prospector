@@ -12,7 +12,7 @@ public class Card : MonoBehaviour {
 	public List<GameObject> decoGOs = new List<GameObject>();
 	public List<GameObject> pipGOs = new List<GameObject>();
 	
-	public GameObject back;  // back of card;
+	public GameObject back;     // back of card;
 	public CardDefinition def;  // from DeckXML.xml		
 
 	

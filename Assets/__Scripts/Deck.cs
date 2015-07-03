@@ -263,5 +263,30 @@ public class Deck : MonoBehaviour {
 		}//foreach	
 		return (null);  // couldn't find the sprite (should never reach this line)
 	 }// getFace 
+	 
+	 
+	 // Shuffle the cards in the Deck
+	 // parameter is of type ref, so that we are working with the actual list, not copy
+	 // oCards - o indicates out??? 
+	 static public void Shuffle(ref List<Card> oCards){
+	 	List<Card> tCards = new List<Card>();
+	 	int ndx;
+	 	
+	 	// while there are still cards in the original list
+	 	// draw a card at random from the list of cards
+	 	// put it in temporary list
+	 	// remove from original list
+	 	while (oCards.Count > 0) {
+	 		ndx = Random.Range (0, oCards.Count);
+	 		tCards.Add (oCards[ndx]);
+	 		oCards.RemoveAt(ndx);
+	 	}
+	 	
+	 	
+	 	//when done, move the temporary list to the original list
+	 	// since it's a ref parameter, the original is changed
+	 	//MAGIC!
+	 	oCards = tCards;
+	 }
 	
 } // Deck class
