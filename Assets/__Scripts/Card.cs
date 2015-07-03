@@ -15,15 +15,16 @@ public class Card : MonoBehaviour {
 	public GameObject back;  // back of card;
 	public CardDefinition def;  // from DeckXML.xml		
 
-	// Use this for initialization
-	void Start () {
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	// property
+	public bool faceUP {
+		get {
+			return (!back.activeSelf);
+		}		
+		set {
+			back.SetActive(!value);
+		}
+	}	
 } // class Card
 
 [System.Serializable]
@@ -39,5 +40,5 @@ public class CardDefinition{
 	public string	face;	//sprite to use for face cart
 	public int		rank;	// value from 1-13 (Ace-King)
 	public List<Decorator>	
-					pips = new List<Decorator>();  // Pips Used
-}
+					pips = new List<Decorator>();  // Pips Used					
+} // Class CardDefinition

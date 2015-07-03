@@ -236,6 +236,20 @@ public class Deck : MonoBehaviour {
 				tGO.name = "face";
 			}
 			
+			// Add Card Back
+			// Back isn't actually behind the card. It sits in front of the card
+			// and can be turned on and off to hide the face
+			tGO = Instantiate(prefabSprite) as GameObject;
+			tSR = tGO.GetComponent<SpriteRenderer>();
+			tSR.sprite = cardBack;
+			tGO.transform.parent = card.transform;
+			tGO.transform.localPosition = Vector3.zero;
+			tSR.sortingOrder = 2;
+			tGO.name = "back";
+			
+			card.back = tGO;
+			card.faceUP = true;
+			
 			cards.Add (card);
 		} // for all the Cardnames	
 	} // makeCards
