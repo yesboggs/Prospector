@@ -8,6 +8,9 @@ public class Prospector : MonoBehaviour {
 	static public Prospector 	S;
 	public Deck					deck;
 	public TextAsset			deckXML;
+	
+	public Layout				layout;
+	public TextAsset			layoutXML;
 
 	void Awake(){
 		S = this;
@@ -17,6 +20,9 @@ public class Prospector : MonoBehaviour {
 		deck = GetComponent<Deck> ();
 		deck.InitDeck (deckXML.text);
 		Deck.Shuffle (ref deck.cards);
+		
+		layout = GetComponent<Layout>();
+		layout.ReadLayout(layoutXML.text);
 	}
 
 }
