@@ -91,10 +91,10 @@ public class Prospector : MonoBehaviour {
 			cp.slotDef = tSD;
 			cp.state = CardState.tableau;
 			
-			tableau.Add (cp);	
+			cp.SetSortingLayerName(tSD.layerName); //Get things ready to handle all off the image layers
 			
+			tableau.Add (cp);		
 		} //foreach SlotDef
-				
 	} //LayoutGame
-
+	
 } // Prospector
