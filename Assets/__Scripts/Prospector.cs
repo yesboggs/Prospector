@@ -95,6 +95,88 @@ public class Prospector : MonoBehaviour {
 			
 			tableau.Add (cp);		
 		} //foreach SlotDef
+		
+		// Set up initial Target card
+		MoveToTarget(Draw ());
+		
+		//set up draw pile
+		UpdateDrawPile();
 	} //LayoutGame
+	
+	// Called any time a card is clicked
+	public void CardClicked(CardProspector cd) {
+		switch(cd.state){
+			case CardState.target:
+				// doesn't do anything
+				break;
+			case CardState.drawpile:
+				MoveToDiscard(target);
+				MoveToTarget(Draw ());
+				UpdateDrawPile();
+				break;
+			case CardState.tableau:
+				//clicking will cause check to see it is a valid play
+				break;
+		} // switch cd.state
+	} // CardClicked
+	
+	// Move the current target to the discard pile
+	void MoveToDiscard(CardProspector cd){
+		// set state to discard
+		cd.state = CardState.discard;
+		discardPile.Add (cd);
+		cd.transform.parent = layoutAnchor;
+		
+		cd.transform.localPosition = new Vector3(
+			layout.multiplier.x * layout.discardPile.x,
+			layout.multiplier.y * layout.discardPile.y, 
+			-layout.discardPile.layerID+0.5f);
+		cd.transform.localRotation = Quaternion.Euler(new Vector3 (0.0f,0.0f,Random.Range(-30.0f,30.0f)));
+		cd.faceUP = true;
+		
+		//place it on top of pile for depth sorting
+		cd.SetSortingLayerName (layout.discardPile.layerName);
+		cd.SetSortOrder(-100+discardPile.Count);
+	}// MoveToDiscard
+	
+	// make the cd the new Target card
+	void MoveToTarget(CardProspector cd) {
+		// if there is a target card, move it to the discard pile
+		if (target != null) {
+			MoveToDiscard(target);
+		}
+		
+		target = cd;
+		cd.state = CardState.target;
+		cd.transform.parent = layoutAnchor;
+		cd.transform.localPosition = new Vector3(
+			layout.multiplier.x * layout.discardPile.x,
+			layout.multiplier.y * layout.discardPile.y, 
+			-layout.discardPile.layerID);
+		cd.faceUP = true;
+		cd.SetSortingLayerName (layout.discardPile.layerName);
+		cd.SetSortOrder(0);
+	} // MoveToTarget
+	
+	void UpdateDrawPile() {
+		CardProspector cd;
+		
+		// go through all cards of draw pile and reposition
+		// with proper sort order and stagger
+		for (int i=0; i <drawPile.Count; i++)
+		{
+			cd = drawPile[i];
+			cd.transform.parent = layoutAnchor;
+			Vector2 dpStagger = layout.drawPile.stagger;
+			cd.transform.localPosition = new Vector3(
+				layout.multiplier.x * layout.drawPile.x + i*dpStagger.x,
+				layout.multiplier.y * layout.drawPile.y + i*dpStagger.y, 
+				-layout.discardPile.layerID+0.1f*i);
+			cd.faceUP = false;
+			cd.state = CardState.drawpile;
+			cd.SetSortingLayerName (layout.drawPile.layerName);
+			cd.SetSortOrder(-10*i);
+		}//for in the drawPile
+	} // UpdateDrawPile
 	
 } // Prospector

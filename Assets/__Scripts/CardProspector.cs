@@ -22,4 +22,9 @@ public class CardProspector : Card {
 	public SlotDef				slotDef;		// data pulled from layout.xml 
 
 
+	override public void OnMouseUpAsButton() {
+		Prospector.S.CardClicked(this);
+		base.OnMouseUpAsButton();
+	}
+
 }  // CardProspector

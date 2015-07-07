@@ -81,8 +81,15 @@ public class Card : MonoBehaviour {
 				break;
 			} // switch
 		}//foreach SpriteRenderer
+	} //SetSortOrder
 	
-	} //SetSortOrder					
+						
+	// virtual methods for overriding by game play
+	virtual public void OnMouseUpAsButton() {
+		print (name);
+	}// OnMouseUpAsButton										
+																
+																										
 } // class Card
 
 [System.Serializable]
