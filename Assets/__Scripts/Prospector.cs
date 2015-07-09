@@ -116,6 +116,23 @@ public class Prospector : MonoBehaviour {
 				break;
 			case CardState.tableau:
 				//clicking will cause check to see it is a valid play
+				// start by assuming we will succeed
+				bool validMatch = true;
+				if (!cd.faceUP) {
+					validMatch = false;				// and change value if learn we were incorrect
+				}
+				if (!AdjacentRank(cd, target)) {
+					validMatch = false;
+				}
+				
+				if (!validMatch) {
+					// play a buzz sound
+					return;
+				}
+				
+				//if we get here, it must be a valid match
+				tableau.Remove(cd);
+				MoveToTarget(cd);
 				break;
 		} // switch cd.state
 	} // CardClicked
@@ -178,5 +195,26 @@ public class Prospector : MonoBehaviour {
 			cd.SetSortOrder(-10*i);
 		}//for in the drawPile
 	} // UpdateDrawPile
+	
+	// return True if the two cards are adjacent in rank with wrap around from A to K
+	public bool AdjacentRank(CardProspector c0, CardProspector c1) {
+		// adjacent rank should not need to check if card is faceDown. That is not its job.
+		// if (!c0.faceUp || !c1.faceUp) return false;
+		
+		if (Mathf.Abs (c0.rank - c1.rank) == 1) {
+			return true;
+		}
+		
+		if ((c0.rank == 1 && c1.rank==13) || 
+		    (c0.rank == 13 && c1.rank==1)) {
+		    	return true;
+		    }
+		    
+		// if we get here, they are not adjacent
+		return false;    
+		    
+		
+	} // adjacent rank
+	
 	
 } // Prospector
