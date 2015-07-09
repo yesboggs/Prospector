@@ -62,6 +62,18 @@ public class Prospector : MonoBehaviour {
 		drawPile.RemoveAt(0);
 		return (cd);
 	} // Draw
+	
+	// Convert LayoutID int to CardProspector with that ID
+	CardProspector FindCardByLayoutID(int layoutID) {
+		foreach (CardProspector tCP in tableau) {
+			if (tCP.layoutID == layoutID) {
+				return (tCP);
+			}
+		}// for each
+		
+		// if we get here, we didn't find it
+		return (null);
+	}
 
 
 	// LayoutGame() - positions the original tableau of cards
@@ -95,6 +107,16 @@ public class Prospector : MonoBehaviour {
 			
 			tableau.Add (cp);		
 		} //foreach SlotDef
+		
+		// Set up which cards are hiding the others
+		// since cp has already been allocated we can reuse it here 
+		foreach (CardProspector tCP in tableau) {
+			foreach (int hid in tCP.slotDef.hiddenBy) {
+				cp = FindCardByLayoutID(hid);
+				tCP.hiddenBy.Add (cp);
+			}
+		}
+		
 		
 		// Set up initial Target card
 		MoveToTarget(Draw ());
@@ -133,6 +155,7 @@ public class Prospector : MonoBehaviour {
 				//if we get here, it must be a valid match
 				tableau.Remove(cd);
 				MoveToTarget(cd);
+				SetTableauFaces();
 				break;
 		} // switch cd.state
 	} // CardClicked
@@ -211,10 +234,20 @@ public class Prospector : MonoBehaviour {
 		    }
 		    
 		// if we get here, they are not adjacent
-		return false;    
-		    
-		
+		return false;    	
 	} // adjacent rank
 	
+	// This turns cards in the Mine face up or face down
+	void SetTableauFaces() {
+		foreach (CardProspector cd in tableau) {
+			bool fup = true;
+			foreach(CardProspector cover in cd.hiddenBy) {
+				if (cover.state == CardState.tableau) {
+					fup = false;
+				}
+			} // foreach cover card
+			cd.faceUP = fup;
+		} // foreach in tableau
+	} // setTableauFaces
 	
 } // Prospector
