@@ -158,6 +158,10 @@ public class Prospector : MonoBehaviour {
 				SetTableauFaces();
 				break;
 		} // switch cd.state
+		
+		//check to see if the game has ended
+		CheckForGameOver();
+		
 	} // CardClicked
 	
 	// Move the current target to the discard pile
@@ -250,4 +254,41 @@ public class Prospector : MonoBehaviour {
 		} // foreach in tableau
 	} // setTableauFaces
 	
+	//test if the game is over
+	void CheckForGameOver ()
+	{
+		// IF the tableau is empty, the game is over
+		if (tableau.Count == 0) {
+			GameOver (true);
+			return;
+		}
+		
+		// if there are cards left to draw, it is not over
+		if (drawPile.Count > 0) {
+			return;
+		}
+		
+		// otherwise, count is currently 0 check the remaining plays
+		foreach (CardProspector cd in tableau) {
+			if (AdjacentRank(cd, target)) {
+				// not over yet
+				return;
+			}
+		} // foreach in tableau
+		
+		// if we get here, the player lost
+		GameOver (false);
+	}
+
+	// called when the game is over
+	void GameOver (bool won)
+	{
+		if (won) {
+			print ("Game Over: You Won!!!!");
+		} else {
+			print ("Game over: You lost :( ");
+		}
+		
+		Application.LoadLevel("__Prospector_Scene_0");
+	}
 } // Prospector
