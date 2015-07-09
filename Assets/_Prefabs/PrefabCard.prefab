@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21200000}
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
+  - 95: {fileID: 9592234}
   m_Layer: 0
   m_Name: PrefabCard
   m_TagString: Untagged
@@ -42,6 +43,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.55999994, y: 3.55999994, z: .200000003}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &9592234
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -64,6 +80,7 @@ MonoBehaviour:
     face: 
     rank: 0
     pips: []
+  spriteRenderers: []
   state: 0
   hiddenBy: []
   layoutID: 0
